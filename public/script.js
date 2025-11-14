@@ -3,6 +3,7 @@ const style = document.createElement("style");
 style.type = "text/css";
 style.textContent = `
     @import url('https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap');
+    
     #bugs::-webkit-scrollbar {
         display: none;
     }
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         alignItems: "center",
         gap: "15px"
     });
+
     const logo = document.createElement("img");
     logo.id = "opener";
     logo.src = "logo.png";
@@ -65,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
     logo.height = 40;
     logo.width = 40;
     logo.style.borderRadius = "10px";
+
     const title = document.createElement("span");
     title.textContent = "ChatLeaf";
 
@@ -75,11 +78,13 @@ document.addEventListener("DOMContentLoaded", function () {
     closeBtn.id = "close";
     closeBtn.style.cursor = "pointer";
     closeBtn.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
-        <path d="M18 6 6 18"/>
-        <path d="m6 6 12 12"/>
-    </svg>
-`;
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" 
+            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+            stroke-linejoin="round">
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
+        </svg>
+    `;
 
     header.appendChild(headerLeft);
     header.appendChild(closeBtn);
@@ -107,16 +112,19 @@ document.addEventListener("DOMContentLoaded", function () {
         textAlign: "center",
         gap: "10px"
     });
+
     const helpImg = document.createElement("img");
     helpImg.src = "logo.png";
     helpImg.alt = "ChatLeaf Logo";
     helpImg.height = 60;
     helpImg.width = 60;
     helpImg.style.borderRadius = "10px";
+
     const helpText = document.createElement("span");
     helpText.style.fontSize = "small";
     helpText.style.color = "#737373";
     helpText.textContent = "Are you looking for something? I can search the entire site in seconds.";
+
     helpDiv.appendChild(helpImg);
     helpDiv.appendChild(helpText);
 
@@ -146,11 +154,9 @@ document.addEventListener("DOMContentLoaded", function () {
     Object.assign(promptInput.style, {
         height: "100px",
         flex: 1,
-        fontFamily: "'Reddit Sans'",
-        outline: "none",
-        border: "none",
         background: "transparent",
-        width: "100%",
+        border: "none",
+        outline: "none",
         resize: "none"
     });
 
@@ -169,10 +175,14 @@ document.addEventListener("DOMContentLoaded", function () {
         borderRadius: "100%",
         outline: "1px solid #e5e5e5"
     });
-    sendBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" />
-        <path d="M6 12h16" />
-    </svg>`;
+
+    sendBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" 
+            stroke="#737373" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/>
+            <path d="M6 12h16"/>
+        </svg>
+    `;
 
     chatForm.appendChild(promptInput);
     chatForm.appendChild(sendBtn);
@@ -184,6 +194,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openerFloating.id = "openerFloating";
     openerFloating.src = "logo.png";
     openerFloating.alt = "Open Chatbot";
+
     Object.assign(openerFloating.style, {
         position: "fixed",
         bottom: "20px",
@@ -192,24 +203,29 @@ document.addEventListener("DOMContentLoaded", function () {
         width: "60px",
         borderRadius: "10px",
         cursor: "pointer",
-        zIndex: 1000,
         display: "none",
         opacity: 0,
         transition: "opacity 0.3s ease"
     });
 
-    // Append everything to body
+    // Append everything
     document.body.appendChild(chatbot);
     document.body.appendChild(openerFloating);
 
-    // ===== CHAT LOGIC =====
+    // Chat messages
     const chat = [];
 
     // Avatars
-    const userAvatar = '<div style="height:40px;width:40px;display:flex;align-items:center;justify-content:center;background:#ece5fe;border-radius:10px;"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></svg></div>';
-    const systemAvatar = '<img src="logo.png" alt="Ai Assist Logo" style="height:40px;width:40px;border-radius:10px;">';
+    const userAvatar = `
+        <div style="height:40px;width:40px;display:flex;align-items:center;justify-content:center;background:#ece5fe;border-radius:10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" />
+            </svg>
+        </div>`;
 
-    // Render a message with fade animation
+    const systemAvatar = `<img src="logo.png" style="height:40px;width:40px;border-radius:10px;">`;
+
+    // Display a message
     function renderMessage(msg, delay = 0) {
         const wrapper = document.createElement("div");
         wrapper.style.display = "flex";
@@ -220,17 +236,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (msg.type === "user") wrapper.style.flexDirection = "row-reverse";
 
-        const avatarDiv = document.createElement("div");
-        avatarDiv.innerHTML = msg.type === "user" ? userAvatar : systemAvatar;
+        const avatar = document.createElement("div");
+        avatar.innerHTML = msg.type === "user" ? userAvatar : systemAvatar;
 
         const messageDiv = document.createElement("div");
         messageDiv.style.padding = "10px";
+        messageDiv.style.background = msg.type === "user" ? "#f1f1f1" : "#ece5fe";
         messageDiv.style.borderRadius = "10px";
         messageDiv.style.maxWidth = "70%";
-        messageDiv.style.background = msg.type === "user" ? "#f1f1f1" : "#ece5fe";
         messageDiv.innerHTML = `<p style="margin:0;font-size:small;">${msg.message}</p>`;
 
-        wrapper.appendChild(avatarDiv);
+        wrapper.appendChild(avatar);
         wrapper.appendChild(messageDiv);
 
         setTimeout(() => {
@@ -240,42 +256,41 @@ document.addEventListener("DOMContentLoaded", function () {
         }, delay);
     }
 
-    // Form submit
+    // Handle form submit
     chatForm.addEventListener("submit", function (e) {
         e.preventDefault();
+
         const text = promptInput.value.trim();
         if (!text) return;
 
-        if (helpDiv) helpDiv.remove(); // remove help if first message
+        if (helpDiv) helpDiv.remove();
 
         chat.push({ type: "user", message: text });
         renderMessage(chat[chat.length - 1]);
 
         promptInput.value = "";
 
-        // Simulated system response with 1s animation delay
+        // Send request to backend
         setTimeout(() => {
-            fetch('http://192.168.1.104:8000/agent-query/', {
+            fetch('http://192.168.1.104:8000/api/query/', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    query: text,              // original message // extra header parameter
-                    url: window.location.href   // send the current page URL as a parameter
+                    query: text,
+                    url: window.location.href
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                const sysMsg = { type: "system", message: data.reply };
-                chat.push(sysMsg);
-                renderMessage(sysMsg);
-            })
-            .catch(error => {
-                const sysMsg = { type: "system", message: "Error: " + error.message };
-                chat.push(sysMsg);
-                renderMessage(sysMsg);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    const sysMsg = { type: "system", message: data.answer };
+                    chat.push(sysMsg);
+                    renderMessage(sysMsg);
+                })
+                .catch(error => {
+                    const sysMsg = { type: "system", message: "Error: " + error.message };
+                    chat.push(sysMsg);
+                    renderMessage(sysMsg);
+                });
         }, 1000);
     });
 
@@ -286,7 +301,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Hide/show chatbot
+    // Close button
     closeBtn.addEventListener("click", () => {
         chatbot.style.opacity = 0;
         setTimeout(() => {
@@ -296,6 +311,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 300);
     });
 
+    // Open button
     openerFloating.addEventListener("click", () => {
         openerFloating.style.opacity = 0;
         setTimeout(() => {
@@ -307,24 +323,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-// Detect and wrap URLs in a system message
+// Auto-link URLs in system messages
 function autoLinkSystemMessages() {
     const systemMessages = document.querySelectorAll("#chatBody div div p");
+
     systemMessages.forEach(p => {
         if (p.dataset.linkified) return;
-        if (p.parentElement.style.background === "rgb(236, 229, 254)" || p.parentElement.style.background === "#ece5fe") {
-            // simple regex for URLs
+
+        if (p.parentElement.style.background === "#ece5fe" ||
+            p.parentElement.style.background === "rgb(236, 229, 254)") {
+
             const urlRegex = /(\b(https?:\/\/|www\.|[a-z0-9.-]+\.[a-z]{2,})([^\s<]*)\b)/gi;
+
             p.innerHTML = p.innerHTML.replace(urlRegex, (url) => {
                 let href = url;
                 if (!/^https?:\/\//i.test(url)) href = 'http://' + url;
-                return `<a href="${href}" target="_blank" style="color:#007bff;text-decoration:underline;">${url}</a>`;
+
+                return `<a href="${href}" target="_blank" 
+                        style="color:#007bff;text-decoration:underline;">${url}</a>`;
             });
-            // mark as processed
+
             p.dataset.linkified = "true";
         }
     });
 }
 
-// Call this after rendering a system message
-setInterval(autoLinkSystemMessages, 300); // runs every 300ms to catch new messages
+// Run every 300ms
+setInterval(autoLinkSystemMessages, 300);
