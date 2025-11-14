@@ -1,2 +1,10 @@
 User-agent: *
 Allow: /
+Allow : /Home
+Allow : /blogs
+Allow : /books
+Allow : /products
+Allow : /product/:id
+Allow : /blog/:id
+Allow : /book/:id
+
