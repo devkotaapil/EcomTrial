@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
     logo.width = 40;
     logo.style.borderRadius = "10px";
     const title = document.createElement("span");
-    title.textContent = "Ai Assist";
+    title.textContent = "ChatLeaf";
 
     headerLeft.appendChild(logo);
     headerLeft.appendChild(title);
@@ -80,7 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
         <path d="m6 6 12 12"/>
     </svg>
 `;
-
 
     header.appendChild(headerLeft);
     header.appendChild(closeBtn);
@@ -256,9 +255,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Simulated system response with 1s animation delay
         setTimeout(() => {
-            const sysMsg = { type: "system", message: "System says: " + text.split("").reverse().join("") };
-            chat.push(sysMsg);
-            renderMessage(sysMsg);
+            fetch('http://192.168.1.104:8000/agent-query/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: text,              // original message // extra header parameter
+                    url: window.location.href   // send the current page URL as a parameter
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const sysMsg = { type: "system", message: data.reply };
+                chat.push(sysMsg);
+                renderMessage(sysMsg);
+            })
+            .catch(error => {
+                const sysMsg = { type: "system", message: "Error: " + error.message };
+                chat.push(sysMsg);
+                renderMessage(sysMsg);
+            });
         }, 1000);
     });
 
