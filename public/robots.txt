@@ -1,22 +1,2 @@
 User-agent: *
-Disallow: /cart/
-Disallow: /checkout/
-Disallow: /account/
-Disallow: /login/
-Disallow: /register/
-Disallow: /orders/
-Disallow: /wishlist/
-Disallow: /search
-Disallow: /*?sort=
-Disallow: /*?filter=
-Disallow: /*?page=
-
 Allow: /
-
-# Allow essential assets (important for React apps)
-Allow: /*.css$
-Allow: /*.js$
-Allow: /static/
-
-# Update this with your live domain
-Sitemap: https://ecommercetrial.vercel.app/
