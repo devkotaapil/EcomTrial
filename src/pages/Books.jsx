@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import booksData from '../data/books.js';
 
 const Books = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('title');
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   const categories = ['all', ...new Set(booksData.map(book => book.category))];
 
@@ -82,36 +84,27 @@ const Books = () => {
         {sortedBooks.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {sortedBooks.map((book) => (
-              <div key={book.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition flex flex-col">
-                <img
-                  src={book.cover}
-                  alt={book.title}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">{book.title}</h3>
-                  <p className="text-sm text-gray-600 mb-2">{book.author}</p>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">{book.description}</p>
-                  
-                  <div className="mt-auto">
-                    <div className="flex justify-between items-center mb-3">
-                      <span className="text-xl font-bold text-blue-600">${book.price}</span>
-                      <span className="flex items-center text-sm">
-                        <span className="text-yellow-400 mr-1">★</span>
+              <Link to={`/book/${book.id}`} key={book.id} className="block">
+                <div
+                  onMouseEnter={() => setHoveredCard(`book-${book.id}`)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition transform hover:scale-105"
+                >
+                  <img src={book.cover} alt={book.title} className="w-full h-56 object-cover" />
+                  <div className="p-4">
+                    <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">{book.title}</h3>
+                    <p className="text-xs text-gray-600 mb-2">{book.author}</p>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-lg font-bold text-blue-600">Rs. {book.price}</span>
+                      <span className="flex items-center text-xs">
+                        <span className="text-yellow-400">★</span>
                         {book.rating}
                       </span>
                     </div>
-                    <p className="text-xs text-gray-500 mb-3">
-                      {book.stock > 0 ? `${book.stock} in stock` : 'Out of stock'}
-                    </p>
-                    <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={book.stock === 0}
-                    >
-                      {book.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
-                    </button>
+                    <p className="text-xs text-gray-500">{book.category}</p>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         ) : (

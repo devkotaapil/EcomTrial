@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './contexts/CartContext.jsx';
 import { WishlistProvider } from './contexts/WishlistContext.jsx';
@@ -12,6 +11,8 @@ import Privacy from './pages/Privacy.jsx';
 import Products from './pages/Products.jsx';
 import Blogs from './pages/Blogs.jsx';
 import Books from './pages/Books.jsx';
+import BlogDetails from './pages/BlogDetails.jsx';
+import BookDetails from './pages/BookDetails.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
 
@@ -33,6 +34,8 @@ function App() {
                 <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
+                <Route path="/blog/:id" element={<BlogDetails />} />
+                <Route path="/book/:id" element={<BookDetails />} />
               </Routes>
             </main>
             <Footer />
