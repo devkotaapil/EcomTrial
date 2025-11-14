@@ -21,7 +21,7 @@ const Navbar = () => {
     <nav className="bg-gray-800 text-white">
       <div className="container mx-auto flex justify-between items-center p-4">
         <Link to="/" className="text-xl font-bold">
-          <span className="font-edu text-2xl text-red-500">A</span>ppeal
+          <span className="font-edu text-2xl text-red-500">S</span>ajilo
         </Link>
         <div className="hidden md:flex space-x-4 items-center">
           <Link
@@ -47,6 +47,42 @@ const Navbar = () => {
             }
           >
             About
+          </Link>
+          <Link
+            to="/products"
+            className={({ isActive }) =>
+              `${
+                isActive
+                  ? "border-b-3 transition-all border-red-500"
+                  : "text-white"
+              }`
+            }
+          >
+            Products
+          </Link>
+          <Link
+            to="/blogs"
+            className={({ isActive }) =>
+              `${
+                isActive
+                  ? "border-b-3 transition-all border-red-500"
+                  : "text-white"
+              }`
+            }
+          >
+            Blogs
+          </Link>
+          <Link
+            to="/books"
+            className={({ isActive }) =>
+              `${
+                isActive
+                  ? "border-b-3 transition-all border-red-500"
+                  : "text-white"
+              }`
+            }
+          >
+            Books
           </Link>
           <Link
             to="/contact"
@@ -117,6 +153,15 @@ const Navbar = () => {
             </Link>
             <Link to="/about" onClick={() => setIsOpen(false)}>
               About
+            </Link>
+            <Link to="/products" onClick={() => setIsOpen(false)}>
+              Products
+            </Link>
+            <Link to="/blogs" onClick={() => setIsOpen(false)}>
+              Blogs
+            </Link>
+            <Link to="/books" onClick={() => setIsOpen(false)}>
+              Books
             </Link>
             <Link to="/contact" onClick={() => setIsOpen(false)}>
               Contact

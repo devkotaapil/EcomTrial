@@ -9,6 +9,9 @@ import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
 import Cart from './pages/Cart.jsx';
 import Privacy from './pages/Privacy.jsx';
+import Products from './pages/Products.jsx';
+import Blogs from './pages/Blogs.jsx';
+import Books from './pages/Books.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
 
@@ -23,6 +26,9 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/blogs" element={<Blogs />} />
+                <Route path="/books" element={<Books />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
                 <Route path="/privacy" element={<Privacy />} />

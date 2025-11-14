@@ -4,6 +4,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext.jsx';
 import { useAuthModal } from '../contexts/AuthModalContext.jsx';
 import { useUser } from '@clerk/clerk-react';
+import productsData from '../data/products.js';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -18,63 +19,46 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    // Clear previous state to prevent stale data
+    // Use local products data instead of fetching from API
     setProduct(null);
     setRelatedProducts([]);
     setError(null);
     setLoading(true);
 
-    console.log('Fetching product with ID:', id); // Debug: Log the ID
+    const pid = Number(id);
+    const data = productsData.find((p) => p.id === pid);
+    if (!data) {
+      setError('Product not found');
+      setLoading(false);
+      return;
+    }
 
-    const fetchProduct = async () => {
-      try {
-        const response = await fetch(`https://dummyjson.com/products/${id}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch product details');
-        }
-        const data = await response.json();
-        console.log('Product data:', data); // Debug: Log API response
-        const formattedProduct = {
-          id: data.id,
-          name: data.title,
-          description: data.description,
-          price: data.price,
-          image: data.thumbnail,
-          images: data.images,
-          category: data.category,
-          brand: data.brand,
-          rating: data.rating,
-          stock: data.stock,
-        };
-        setProduct(formattedProduct);
-
-        // Fetch related products based on category
-        const relatedResponse = await fetch(
-          `https://dummyjson.com/products/category/${data.category}?limit=4`
-        );
-        if (!relatedResponse.ok) {
-          throw new Error('Failed to fetch related products');
-        }
-        const relatedData = await relatedResponse.json();
-        console.log('Related products data:', relatedData); // Debug: Log related products
-        const formattedRelated = relatedData.products
-          .filter((item) => item.id !== data.id)
-          .map((item) => ({
-            id: item.id,
-            name: item.title,
-            price: item.price,
-            image: item.thumbnail,
-          }));
-        setRelatedProducts(formattedRelated);
-
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
+    const formattedProduct = {
+      id: data.id,
+      name: data.name,
+      description: data.description || '',
+      price: data.price,
+      image: data.thumbnail || data.image,
+      images: data.images || [data.thumbnail || data.image],
+      category: data.category || '',
+      brand: data.brand || '',
+      rating: data.rating || 0,
+      stock: data.stock || 0,
     };
+    setProduct(formattedProduct);
 
-    fetchProduct();
+    const formattedRelated = productsData
+      .filter((item) => item.id !== data.id && item.category === data.category)
+      .slice(0, 4)
+      .map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.thumbnail || item.image,
+      }));
+
+    setRelatedProducts(formattedRelated);
+    setLoading(false);
   }, [id]);
 
   const handleAddToCart = () => {
